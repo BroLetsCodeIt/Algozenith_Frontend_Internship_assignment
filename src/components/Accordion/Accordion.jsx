@@ -6,11 +6,11 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
 
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 
-const Accordion = ({ children }) => {
+const Accordion = ({ children, active ,part , description, hours,level,videos}) => {
   const [percentCompleted, setPercentCompleted] = useState(78);
-  const [visibile, setVisible] = useState(false);
+  const [visibile, setVisible] = useState(active);
 
   const handleDropDown = () => {
     setVisible(!visibile);
@@ -21,9 +21,9 @@ const Accordion = ({ children }) => {
       <div className="w-full border-t-4 border-x-4 rounded-md border-[#F2F7FF] px-4 pt-4 flex items-start justify-between ">
         {/* left */}
         <div className="flex items-start justify-between flex-col gap-4">
-          <span className="font-light tracking-tighter">PART 1</span>
+          <span className="font-light tracking-tighter">PART {part}</span>
           <h1 className="font-semibold tracking-tighter">
-            Lorem ipsum dolor sit amet consectetur
+            {description}
           </h1>
         </div>
         {/* right */}
@@ -31,13 +31,13 @@ const Accordion = ({ children }) => {
           <div className="flex gap-6 text-blue-900">
             <span className="flex items-center gap-3 text-blue-900 tracking-tighter">
               <Clock size={15} />
-              03:00:00
+              {hours}
             </span>
             <span className="flex items-center gap-1 text-blue-900 tracking-tighter">
               <ChartNoAxesColumnIncreasing size={15} />
-              Medium
+              {level}
             </span>
-            <span>5</span>
+            <span>{videos}</span>
             <motion.span
               onClick={handleDropDown}
               className="transition ease-in-out delay-150 duration-500 cursor-pointer"
@@ -66,10 +66,9 @@ const Accordion = ({ children }) => {
       <motion.div
         className={twMerge("flex flex-col", visibile ? "visible" : "invisible")}
         initial={{ opacity: 0, height: 0 }}
-  animate={{ opacity: visibile ? 1 : 0, height: visibile ? "auto" : 0 }}
-  exit={{ opacity: 0, height: 0 }}
-  transition={{ duration: 0.3, ease: "easeInOut" }}
-
+        animate={{ opacity: visibile ? 1 : 0, height: visibile ? "auto" : 0 }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         {children}
       </motion.div>
@@ -79,6 +78,12 @@ const Accordion = ({ children }) => {
 
 Accordion.propTypes = {
   children: PropTypes.node,
+  active: PropTypes.bool,
+  part : PropTypes.number,
+  description : PropTypes.string , 
+  hours : PropTypes.number , 
+  level : PropTypes.string ,
+  videos : PropTypes.array
 };
 
 export default Accordion;
